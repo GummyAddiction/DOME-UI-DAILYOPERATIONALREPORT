@@ -30,8 +30,7 @@ export class ReportService {
         return this.http.get<FunctionalLocation[]>(`${this.apiServerUrl}/reporttxn/functionallocations`);
     }
 
-    public deleteReportTxn(id: number): void{
-        this.http.delete(`${this.apiServerUrl}/reporttxn/reports${id}`)
-        console.log(this.http.delete(`${this.apiServerUrl}/reporttxn/reports${id}`))
+    public deleteReportTxn(id: number): Observable<any> { 
+        return this.http.delete(`${this.apiServerUrl}/reporttxn/reports/delete/${id}`)
     }
 }

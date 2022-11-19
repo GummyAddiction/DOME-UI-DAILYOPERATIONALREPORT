@@ -178,10 +178,19 @@ export class ReportTxnComponent implements AfterViewInit {
 
 
   openDialog(id:number) {
-    const dialogRef = this.dialog.open(WarningDialogComponent, {restoreFocus: false, data:id});
+    const dialogRef = this.dialog.open(WarningDialogComponent, 
+      {
+        restoreFocus: false, 
+        data:id
+      });
 
     // Manually restore focus to the menu trigger since the element that
     // opens the dialog won't be in the DOM any more when the dialog closes.
-    dialogRef.afterClosed().subscribe(() => this.menuTrigger.focus());
+    dialogRef.afterClosed().subscribe(() => {
+      this.displayReportTxn();
+      this.menuTrigger.focus();
+      
+    });
+    
   }
 }

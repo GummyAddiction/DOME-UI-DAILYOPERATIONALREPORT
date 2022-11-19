@@ -23,8 +23,10 @@ export class WarningDialogComponent implements OnInit {
 
 
   deleteReportTxn(id: number): void{
-    this.reportService.deleteReportTxn(Number(this.data));
-    console.log('masuk di warning fc')
-    console.log(Number(this.data))
+    this.reportService.deleteReportTxn(Number(this.data)).subscribe(
+      result => {
+        console.log(result)
+      }
+    )
   }
 }

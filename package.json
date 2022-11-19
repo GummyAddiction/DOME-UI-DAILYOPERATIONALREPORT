@@ -24,7 +24,7 @@
     "@grapecity/spread-sheets": "^15.2.3",
     "@grapecity/spread-sheets-angular": "^15.2.3",
     "angular-in-memory-web-api": "^0.14.0",
-    "angular-material": "^1.1.24",
+    "angular-material": "^0.8.0",
     "dayjs": "^1.11.6",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
@@ -34,17 +34,20 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^14.0.6",
+    "@angular-devkit/build-angular": "^14.2.9",
     "@angular/cli": "~14.0.6",
     "@angular/compiler-cli": "^14.0.0",
     "@types/file-saver": "^2.0.5",
     "@types/jasmine": "~4.0.0",
+    "autoprefixer": "^10.4.13",
     "jasmine-core": "~4.1.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "postcss": "^8.4.19",
+    "tailwindcss": "^3.2.4",
     "typescript": "~4.7.2"
   }
 }
