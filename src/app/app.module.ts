@@ -18,6 +18,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import { WarningDialogComponent } from './report-txn/warning-dialog/warning-dialog.component';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { WarningDialogComponent } from './report-txn/warning-dialog/warning-dial
     MatPaginatorModule,
     MatMenuModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    MatInputModule,
+    MatButtonModule
     
   ],
   providers: [ReportService],

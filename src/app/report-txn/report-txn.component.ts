@@ -33,10 +33,16 @@ export class ReportTxnComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('menuTrigger') menuTrigger!: MatMenuTrigger;
 
+  startDate!:Date
+  endDate!:Date
+
+
   range = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
+
+  
 
   title: string = 'ReportTxn';
   dataSource = new MatTableDataSource<ReportTxn>();
@@ -64,29 +70,29 @@ export class ReportTxnComponent implements AfterViewInit {
   ) {}
 
   public displayedColumns = [
-    'reporttransactionid',
+    //'reporttransactionid',
     'shift',
     'datecreated',
-    'jobtype',
-    'timeinformed',
-    'starttime',
-    'finishtime',
-    'totaltime',
-    'stoppagetime',
-    'functionallocation',
-    'subfunctionallocation',
-    'machine',
-    'detailmachine',
-    'problem',
-    'cause',
-    'bias',
-    'action',
-    'executor1',
-    'executor2',
-    'executorextra',
-    'condition',
-    'reason',
-    'note',
+    // 'jobtype',
+    // 'timeinformed',
+    // 'starttime',
+    // 'finishtime',
+    // 'totaltime',
+    // 'stoppagetime',
+    // 'functionallocation',
+    // 'subfunctionallocation',
+    // 'machine',
+    // 'detailmachine',
+    // 'problem',
+    // 'cause',
+    // 'bias',
+    // 'action',
+    // 'executor1',
+    // 'executor2',
+    // 'executorextra',
+    // 'condition',
+    // 'reason',
+    // 'note',
     'option',
   ];
 
@@ -106,11 +112,11 @@ export class ReportTxnComponent implements AfterViewInit {
     const datepipe: DatePipe = new DatePipe('en-US');
 
     let formattedStart = datepipe.transform(
-      this.range.get('start')!.value,
+      this.startDate,
       'YYYY-MM-dd'
     );
     let formattedEnd = datepipe.transform(
-      this.range.get('end')!.value,
+      this.endDate,
       'YYYY-MM-dd'
     );
 
@@ -193,4 +199,16 @@ export class ReportTxnComponent implements AfterViewInit {
     });
     
   }
+
+  dateStartInput(event: Event) {
+    console.log(this.startDate)
+  }
+  dateEndInput(event: Event) {
+    console.log(this.endDate)
+  }
+
+  selectFunctionalLocation(event: Event){
+    console.log(this.functionalLocationForm.value)
+  }
+
 }
