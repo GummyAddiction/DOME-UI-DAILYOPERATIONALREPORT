@@ -15,13 +15,13 @@ export class ReportService {
     private apiServerUrl = environment.apiBaseUrl;
     constructor(private http : HttpClient) {}
  
-    public getReportTxn(dateCreatedStart: string, dateCreatedEnd: string, functionalLocationId:number[] ): Observable < ReportTxn[] > {
+    public getReportTxn(dateCreatedStart: string, dateCreatedEnd: string, functionalLocationId:string ): Observable < ReportTxn[] > {
         let param = new HttpParams();
         param = param.append('dateCreatedStart', dateCreatedStart) // Masih Hardcode dulu ya,  ini bagian untuk bikin filter pakai params
         param = param.append('dateCreatedEnd', dateCreatedEnd)
-        param = param.append('functionalLocationId', String(functionalLocationId))
+        param = param.append('functionalLocationId', functionalLocationId)
         //console.log(this.http.get<ReportTxn[]>(`${this.apiServerUrl}/reporttxn/reports`));
-        console.log("array to string : "+functionalLocationId.toString())
+        //console.log("array to string : "+functionalLocationId.toString())
         return this.http.get<ReportTxn[]>(`${this.apiServerUrl}/reporttxn/reports`, {params: param});
     }
 

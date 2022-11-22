@@ -1,5 +1,5 @@
 <div>
-  <div class="inline-flex place-items-center w-screen border-8">
+  <div class="inline-flex place-items-center w-full border-8">
     <span class="text-lg pb-5 m-3"> Periode </span>
     <div class="m-3">
       <mat-form-field appearance="outline">
@@ -30,7 +30,7 @@
         <mat-datepicker #end></mat-datepicker>
       </mat-form-field>
     </div>
-    <div>
+    <!-- <div>
       <mat-form-field appearance="outline" style="width: 250px">
         <mat-label>Functional Location</mat-label>
         <mat-select
@@ -45,27 +45,42 @@
           }}</mat-option>
         </mat-select>
       </mat-form-field>
+    </div> -->
+    <div>
+      <select
+        [(ngModel)]="functionalLocationId"
+        (change)="selectFunctionalLocation()" 
+        class="border-2 rounded-lg p-4 mb-4"
+      >
+        <option
+          *ngFor="let element of functionalLocation"
+          [value]="element.functionallocationid"
+        >
+          {{ element.name }}
+        </option>
+        <option>All</option>
+      </select>
     </div>
-    <div class="flow-left pb-5">
+    <!-- <div class="flow-left pb-5">
       <button
         (click)="displayReportTxn()"
         class="mx-10 rounded-xl border-1 bg-red-500 px-5 py-2 shadow-lg hover:bg-white animation ease-in-out duration-500"
       >
         Submit
       </button>
-    </div>
-    <div class="pl-10 float-right bg-black">
+    </div> -->
+    <div class="p-4">
       <button
         (click)="exportExcel()"
-        class="rounded-xl border-1 bg-red-500 py-2 shadow-lg hover:bg-white animation ease-in-out duration-500 float-right"
+        class="rounded-xl border-1 bg-red-500 py-2 shadow-lg hover:bg-white animation ease-in-out duration-500"
       >
         Generate Excel
       </button>
     </div>
   </div>
-  
+
   <div class="overflow-x-auto">
-    <table >
+    <table>
       <thead>
         <tr>
           <td colspan="3"></td>
@@ -111,69 +126,78 @@
                     currentPage: page,
                     totalItems: count
                   }
-          " class=""
+          "
+          class=""
         >
           <td>{{ elemen.shift }}</td>
-          <td class="whitespace-nowrap px-6 py-2" >{{formatDate(elemen.datecreated)}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.jobtype}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.timeinformed}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.starttime}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.finishtime}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.totaltime}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.stoppagetime}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.functionallocation}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.subfunctionallocation}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.machine}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.detailmachine}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.problem}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.cause}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.bias}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.action}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.executor1}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.executor2}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.executorextra}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.condition}}</td>
-          <td class="" >{{elemen.reason}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.note}}</td>
-          <td cclass="whitespace-nowrap px-6 py-2" >
-            <button
-                mat-icon-button
-                [matMenuTriggerFor]="menu"
-                aria-label="Example icon-button with a menu"
-              >
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item>
-                  <span>Edit</span>
-                </button>
-                <button
-                  mat-menu-item
-                  (click)="openDialog(elemen.reporttransactionid)"
-                >
-                  <span>Delete</span>
-                </button>
-              </mat-menu>
+          <td class="whitespace-nowrap px-6 py-2">
+            {{ formatDate(elemen.datecreated) }}
           </td>
-          
-
-
+          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.jobtype }}</td>
+          <td cclass="whitespace-nowrap px-6 py-2">
+            {{ elemen.timeinformed }}
+          </td>
+          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.starttime }}</td>
+          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.finishtime }}</td>
+          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.totaltime.substring(0,8) }}</td>
+          <td cclass="whitespace-nowrap px-6 py-2">
+            {{ elemen.stoppagetime }}
+          </td>
+          <td cclass="whitespace-nowrap px-6 py-2">
+            {{ elemen.functionallocation }}
+          </td>
+          <td cclass="whitespace-nowrap px-6 py-2">
+            {{ elemen.subfunctionallocation }}
+          </td>
+          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.machine }}</td>
+          <td cclass="whitespace-nowrap px-6 py-2">
+            {{ elemen.detailmachine }}
+          </td>
+          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.problem }}</td>
+          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.cause }}</td>
+          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.bias }}</td>
+          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.action }}</td>
+          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.executor1 }}</td>
+          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.executor2 }}</td>
+          <td cclass="whitespace-nowrap px-6 py-2">
+            {{ elemen.executorextra }}
+          </td>
+          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.condition }}</td>
+          <td class="">{{ elemen.reason }}</td>
+          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.note }}</td>
+          <td cclass="whitespace-nowrap px-6 py-2">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              aria-label="Example icon-button with a menu"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>
+                <span>Edit</span>
+              </button>
+              <button
+                mat-menu-item
+                (click)="openDialog(elemen.reporttransactionid)"
+              >
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+          </td>
         </tr>
       </tbody>
     </table>
-
-    
   </div>
   <div class="inline-flex place-items-center float-right">
-    <span class="px-3">
-      Show
-    </span>
+    <span class="px-3"> Show </span>
     <select [(ngModel)]="tableSize" class="px-3 border-2 rounded-md">
       <option *ngFor="let elemen of tableSizes" [value]="elemen">
         {{ elemen }}
       </option>
     </select>
-    <pagination-controls class="my-pagination pt-3"
+    <pagination-controls
+      class="my-pagination pt-3"
       previousLabel="Prev"
       nextLabel="Next"
       (pageChange)="onPageChange($event)"

@@ -12,6 +12,8 @@ const EXCEL_EXTENSION = '.xlsx';
 @Injectable({providedIn: 'root'})
 export class ExcelExportService {
 
+    totalTime:string[]=[]
+
     constructor() {}
 
 
@@ -64,7 +66,7 @@ export class ExcelExportService {
         worksheet.getCell('G6').value = "Mulai Kerja";
         worksheet.getCell('H6').value = "Selesai Kerja";
         worksheet.getCell('I6').value = "Total Kerja";
-        worksheet.getCell('J5').formula === '100+100';
+        worksheet.getCell('J5').value = 'sum total time';
         worksheet.getCell('J6').value = "Plant Stop";
         worksheet.mergeCells('K5:K6');
         worksheet.getCell('K6').value = "Fungsional Lokasi";
@@ -197,7 +199,7 @@ export class ExcelExportService {
             eachRow.push(dayjs(element.timeinformed).format('HH:mm'));
             eachRow.push(dayjs(element.starttime).format('HH:mm'));
             eachRow.push(dayjs(element.finishtime).format('HH:mm'));
-            eachRow.push('=IF(H7>G7;H7-G7;"")');
+            eachRow.push(element.totaltime);
             eachRow.push(element.stoppagetime);
             eachRow.push(element.functionallocation);
             eachRow.push(element.subfunctionallocation);
@@ -269,6 +271,40 @@ export class ExcelExportService {
 
         return alpha;
     }
+
+
+    sumTime(times: any[]) {
+        let sumSeconds = 0;
+        let hour:string
+        let min:string
+        let sec:string
+          
+        times.forEach(time => {
+          let a = time.split(":");
+          let seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
+          sumSeconds += seconds;
+        });
+        let h = Math.floor(sumSeconds/60/60)
+        if(String(h).length <=1){
+          console.log(String(h).length)
+          hour ='0'+h
+        }else{
+          hour=''+h
+        }
+        let m = Math.floor((sumSeconds-(h*60*60))/60)
+        if(String(m).length <=1){
+          min ='0'+m
+        }else{
+          min=''+m
+        }
+        let s = Math.floor((sumSeconds-(h*60*60))-(m*60))
+        if(String(m).length <=1){
+          sec ='0'+s
+        }else{
+          sec=''+s
+        }
+        return (hour+':'+min)
+      }
 
 
 }

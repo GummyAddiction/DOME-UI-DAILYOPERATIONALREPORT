@@ -47,7 +47,8 @@ export class ReportTxnComponent implements AfterViewInit {
   title: string = 'ReportTxn';
   dataSource = new MatTableDataSource<ReportTxn>();
   reportTxns: ReportTxn[] = [];
-  functionalLocationId: number[] = [];
+  functionalLocationId!:string;
+  allFunctionalLocationId!:string;
   functionalLocation: FunctionalLocation[] = [];
   functionalLocationForm = new FormControl('');
   functionalLocationModel: FunctionalLocationModel[] = [];
@@ -138,29 +139,9 @@ export class ReportTxnComponent implements AfterViewInit {
 
     const times = ["23:00:50", "23:03:20", "00:00:51"];
     console.log('time test')
-    this.sumTime(times)
   }
 
-  sumTime(times: any[]) {
-    let sumSeconds = 0;
-      
-    times.forEach(time => {
-      let a = time.split(":");
-      let seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
-      sumSeconds += seconds;
-    });
-    let h = Math.floor(sumSeconds/60/60)
-
-    let m = Math.floor((sumSeconds-(h*60*60))/60)
-    let s = Math.floor((sumSeconds-(h*60*60))-(m*60))
-    
-    console.log('H')
-    console.log(h)
-    console.log('M')
-    console.log(m)
-    console.log('s')
-    console.log(s)
-  }
+  
 
   displayReportTxn() {
     // function pas tombol submit dipencet
@@ -171,30 +152,31 @@ export class ReportTxnComponent implements AfterViewInit {
     let formattedStart = datepipe.transform(this.startDate, 'YYYY-MM-dd');
     let formattedEnd = datepipe.transform(this.endDate, 'YYYY-MM-dd');
 
-    this.functionalLocation = JSON.parse(
-      JSON.stringify(this.functionalLocationForm.value)
-    );
-    this.functionalLocationId = this.functionalLocation.map(
-      (data) => data.functionallocationid
-    );
-    this,
-      this.functionalLocationId.forEach(function (value) {
-        console.log('isi 1 1');
-        console.log(value);
-      });
+    // this.functionalLocation = JSON.parse(
+    //   JSON.stringify(this.functionalLocationForm.value)
+    // );
+    // this.functionalLocationId = this.functionalLocation.map(
+    //   (data) => data.functionallocationid
+    // );
+    // this,
+    //   this.functionalLocationId.forEach(function (value) {
+    //     console.log('isi 1 1');
+    //     console.log(value);
+    //   });
 
     this.getReportTxns(
       formattedStart + '',
       formattedEnd + '',
       this.functionalLocationId
     );
-    this.functionalLocationId = [];
+    this.functionalLocationId = '';
+    this.getFunctionalLocation();
   }
 
   public getReportTxns(
     dateCreatedStart: string,
     dateCreatedEnd: string,
-    functionalLocationId: number[]
+    functionalLocationId: string
   ): void {
     // manggil data dari service
     this.reportService
@@ -209,16 +191,22 @@ export class ReportTxnComponent implements AfterViewInit {
   }
 
   public getFunctionalLocation() {
+    let temp:number[]=[]
     this.reportService.getFunctionalLocation().subscribe({
       next: (data) => {
         this.functionalLocation = data;
-        console.log('isi data');
-        console.log(data);
-        console.log('json location value : ');
-        console.log(this.functionalLocation);
+        this.functionalLocation.forEach(
+          element => {
+            temp.push(element.functionallocationid)
+          }
+        )
+        this.allFunctionalLocationId = String(temp)
+        console.log('get all functional location')
+        console.log(this.functionalLocation)
+        console.log(this.allFunctionalLocationId)
       },
       error: (e) => console.error(e),
-    });
+    })
   }
 
   // Percobaan Excel export
@@ -258,9 +246,13 @@ export class ReportTxnComponent implements AfterViewInit {
     this.getAllData();
   }
 
-  selectFunctionalLocation(event: Event) {
-    console.log(this.functionalLocationForm.value);
-    this.getAllData();
+  selectFunctionalLocation() {
+    console.log(this.functionalLocationId);
+    if(this.functionalLocationId == 'All'){
+      this.functionalLocationId = this.allFunctionalLocationId
+    }
+    console.log(this.functionalLocationId);
+    this.getAllData()
   }
 
   onPageChange(event: any) {
@@ -275,11 +267,11 @@ export class ReportTxnComponent implements AfterViewInit {
     console.log('coba untuk get all data')
     console.log(this.startDate)
     console.log(this.endDate)
-    console.log(this.functionalLocationForm.value)
+    console.log(this.functionalLocationId)
     if (
       this.startDate != null &&
       this.endDate != null &&
-      this.functionalLocationForm.value != ''
+      this.functionalLocationId != ''
     ) {
       this.displayReportTxn();
     }
