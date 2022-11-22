@@ -64,7 +64,7 @@ export class ExcelExportService {
         worksheet.getCell('G6').value = "Mulai Kerja";
         worksheet.getCell('H6').value = "Selesai Kerja";
         worksheet.getCell('I6').value = "Total Kerja";
-        worksheet.getCell('J5').value = "Sum Total Kerja";
+        worksheet.getCell('J5').formula === '100+100';
         worksheet.getCell('J6').value = "Plant Stop";
         worksheet.mergeCells('K5:K6');
         worksheet.getCell('K6').value = "Fungsional Lokasi";
@@ -128,44 +128,44 @@ export class ExcelExportService {
         //     };
         // }
 
-        worksheet.addRow([]);
+        //worksheet.addRow([]);
 
         /* Add Header Row */
-        const headerRow = worksheet.addRow(header);
+        //const headerRow = worksheet.addRow(header);
 
         // Cell Style : Fill and Border
-        headerRow.eachCell((cell, index) => {
-            cell.fill = {
-                type: 'pattern',
-                pattern: 'solid',
-                fgColor: {
-                    argb: 'FFFFFF00'
-                },
-                bgColor: {
-                    argb: 'FF0000FF'
-                }
-            };
-            cell.border = {
-                top: {
-                    style: 'thin'
-                },
-                left: {
-                    style: 'thin'
-                },
-                bottom: {
-                    style: 'thin'
-                },
-                right: {
-                    style: 'thin'
-                }
-            };
-            cell.font = {
-                size: 12,
-                bold: true
-            };
+        // headerRow.eachCell((cell, index) => {
+        //     cell.fill = {
+        //         type: 'pattern',
+        //         pattern: 'solid',
+        //         fgColor: {
+        //             argb: 'FFFFFF00'
+        //         },
+        //         bgColor: {
+        //             argb: 'FF0000FF'
+        //         }
+        //     };
+        //     cell.border = {
+        //         top: {
+        //             style: 'thin'
+        //         },
+        //         left: {
+        //             style: 'thin'
+        //         },
+        //         bottom: {
+        //             style: 'thin'
+        //         },
+        //         right: {
+        //             style: 'thin'
+        //         }
+        //     };
+        //     cell.font = {
+        //         size: 12,
+        //         bold: true
+        //     };
 
-            worksheet.getColumn(index).width = header[index - 1].length < 20 ? 20 : header[index - 1].length;
-        });
+        //     worksheet.getColumn(index).width = header[index - 1].length < 20 ? 20 : header[index - 1].length;
+        // });
 
         // Get all columns from JSON
         let columnsArray: any[];
@@ -197,7 +197,8 @@ export class ExcelExportService {
             eachRow.push(dayjs(element.timeinformed).format('HH:mm'));
             eachRow.push(dayjs(element.starttime).format('HH:mm'));
             eachRow.push(dayjs(element.finishtime).format('HH:mm'));
-            eachRow.push(element.totaltime);
+            eachRow.push('=IF(H7>G7;H7-G7;"")');
+            eachRow.push(element.stoppagetime);
             eachRow.push(element.functionallocation);
             eachRow.push(element.subfunctionallocation);
             eachRow.push(element.machine);

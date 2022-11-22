@@ -8,7 +8,7 @@ import {
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ReportService } from '../report-service/report.service';
 import { ReportTxn } from '../report-model/report-txn.model';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatHeaderRowDef, MatTableDataSource } from '@angular/material/table';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
@@ -132,6 +132,34 @@ export class ReportTxnComponent implements AfterViewInit {
         'Desember',
       ],
     });
+
+
+
+
+    const times = ["23:00:50", "23:03:20", "00:00:51"];
+    console.log('time test')
+    this.sumTime(times)
+  }
+
+  sumTime(times: any[]) {
+    let sumSeconds = 0;
+      
+    times.forEach(time => {
+      let a = time.split(":");
+      let seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
+      sumSeconds += seconds;
+    });
+    let h = Math.floor(sumSeconds/60/60)
+
+    let m = Math.floor((sumSeconds-(h*60*60))/60)
+    let s = Math.floor((sumSeconds-(h*60*60))-(m*60))
+    
+    console.log('H')
+    console.log(h)
+    console.log('M')
+    console.log(m)
+    console.log('s')
+    console.log(s)
   }
 
   displayReportTxn() {
