@@ -191,12 +191,12 @@ export class ExcelExportService {
 
             eachRow.push(element.shift);
             eachRow.push(dayjs(element.datecreated).format('dddd'));
-            eachRow.push(element.datecreated);
-            eachRow.push(element.datecreated);
+            eachRow.push(dayjs(element.datecreated).format('DD'));
+            eachRow.push(dayjs(element.datecreated).format('MMM'));
             eachRow.push(element.jobtype);
-            eachRow.push(element.timeinformed);
-            eachRow.push(element.starttime);
-            eachRow.push(element.finishtime);
+            eachRow.push(dayjs(element.timeinformed).format('HH:mm'));
+            eachRow.push(dayjs(element.starttime).format('HH:mm'));
+            eachRow.push(dayjs(element.finishtime).format('HH:mm'));
             eachRow.push(element.totaltime);
             eachRow.push(element.functionallocation);
             eachRow.push(element.subfunctionallocation);

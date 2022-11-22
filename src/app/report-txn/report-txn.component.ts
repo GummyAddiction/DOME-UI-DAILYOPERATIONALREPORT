@@ -23,6 +23,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningDialogComponent } from './warning-dialog/warning-dialog.component';
+import { PaginationInstance } from 'ngx-pagination';
+import * as dayjs from 'dayjs';
+import * as updateLocale from 'dayjs/plugin/updateLocale';
 
 @Component({
   selector: 'app-report-txn',
@@ -33,26 +36,21 @@ export class ReportTxnComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('menuTrigger') menuTrigger!: MatMenuTrigger;
 
-  startDate!:Date
-  endDate!:Date
-
+  startDate!: Date;
+  endDate!: Date;
 
   range = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
 
-  
-
   title: string = 'ReportTxn';
   dataSource = new MatTableDataSource<ReportTxn>();
+  reportTxns: ReportTxn[] = [];
   functionalLocationId: number[] = [];
   functionalLocation: FunctionalLocation[] = [];
   functionalLocationForm = new FormControl('');
   functionalLocationModel: FunctionalLocationModel[] = [];
-
-  page: number = 0;
-  size: number[] = [10, 20, 30, 40, 50];
 
   // this.formGroup.get('name of you control').value   -> cara ambil value dari formGroup
 
@@ -65,8 +63,7 @@ export class ReportTxnComponent implements AfterViewInit {
   constructor(
     private reportService: ReportService,
     public excelExportService: ExcelExportService,
-    public dialog: MatDialog,
-
+    public dialog: MatDialog
   ) {}
 
   public displayedColumns = [
@@ -95,6 +92,11 @@ export class ReportTxnComponent implements AfterViewInit {
     'option',
   ];
 
+  page: number = 1;
+  count: number = 0;
+  tableSize: number = 3;
+  tableSizes: any = [3, 6, 9, 12];
+
   ngAfterViewInit(): void {
     // yg dijalanin pas awal mulai
 
@@ -102,6 +104,34 @@ export class ReportTxnComponent implements AfterViewInit {
     this.getFunctionalLocation();
     this.functionalLocation.push();
     this.dataSource.paginator = this.paginator;
+
+    dayjs.extend(updateLocale);
+    //membuat custom days dengan dayjs
+    dayjs.updateLocale('en', {
+      weekdays: [
+        'Minggu',
+        'Senin',
+        'Selasa',
+        'Rabu',
+        'Kamis',
+        "Jum'at",
+        'Sabtu',
+      ],
+      months: [
+        'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember',
+      ],
+    });
   }
 
   displayReportTxn() {
@@ -110,14 +140,8 @@ export class ReportTxnComponent implements AfterViewInit {
     let init: number = 0;
     const datepipe: DatePipe = new DatePipe('en-US');
 
-    let formattedStart = datepipe.transform(
-      this.startDate,
-      'YYYY-MM-dd'
-    );
-    let formattedEnd = datepipe.transform(
-      this.endDate,
-      'YYYY-MM-dd'
-    );
+    let formattedStart = datepipe.transform(this.startDate, 'YYYY-MM-dd');
+    let formattedEnd = datepipe.transform(this.endDate, 'YYYY-MM-dd');
 
     this.functionalLocation = JSON.parse(
       JSON.stringify(this.functionalLocationForm.value)
@@ -150,6 +174,7 @@ export class ReportTxnComponent implements AfterViewInit {
       .subscribe({
         next: (data) => {
           this.dataSource.data = data;
+          this.reportTxns = data;
         },
         error: (e) => console.error(e),
       });
@@ -181,33 +206,54 @@ export class ReportTxnComponent implements AfterViewInit {
     );
   }
 
-
-  openDialog(id:number) {
-    const dialogRef = this.dialog.open(WarningDialogComponent, 
-      {
-        restoreFocus: false, 
-        data:id
-      });
+  openDialog(id: number) {
+    const dialogRef = this.dialog.open(WarningDialogComponent, {
+      restoreFocus: false,
+      data: id,
+    });
 
     // Manually restore focus to the menu trigger since the element that
     // opens the dialog won't be in the DOM any more when the dialog closes.
     dialogRef.afterClosed().subscribe(() => {
       this.displayReportTxn();
       this.menuTrigger.focus();
-      
     });
-    
   }
 
   dateStartInput(event: Event) {
-    console.log(this.startDate)
+    console.log(this.startDate);
+    console.log(this.functionalLocationId)
+    this.getAllData();
   }
   dateEndInput(event: Event) {
+    console.log(this.endDate);
+    this.getAllData();
+  }
+
+  selectFunctionalLocation(event: Event) {
+    console.log(this.functionalLocationForm.value);
+    this.getAllData();
+  }
+
+  onPageChange(event: any) {
+    this.page = event;
+  }
+
+  formatDate(any: any) {
+    return dayjs(any).format('dddd, DD MMMM YYYY');
+  }
+
+  getAllData() {
+    console.log('coba untuk get all data')
+    console.log(this.startDate)
     console.log(this.endDate)
-  }
-
-  selectFunctionalLocation(event: Event){
     console.log(this.functionalLocationForm.value)
+    if (
+      this.startDate != null &&
+      this.endDate != null &&
+      this.functionalLocationForm.value != ''
+    ) {
+      this.displayReportTxn();
+    }
   }
-
 }

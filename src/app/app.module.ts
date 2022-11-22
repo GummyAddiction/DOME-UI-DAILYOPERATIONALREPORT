@@ -20,6 +20,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { WarningDialogComponent } from './report-txn/warning-dialog/warning-dialog.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatIconModule,
     MatDialogModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    NgxPaginationModule
     
   ],
   providers: [ReportService],

@@ -38,6 +38,7 @@
           multiple
           disableOptionCentering
           (selectionChange)="selectFunctionalLocation($event.value)"
+          (click)="getFunctionalLocation()"
         >
           <mat-option *ngFor="let data of functionalLocation" [value]="data">{{
             data.name
@@ -53,16 +54,132 @@
         Submit
       </button>
     </div>
-    <div class="float-right">
+    <div class="pl-10 float-right bg-black">
       <button
-        (click)="displayReportTxn()"
-        class="mx-10 rounded-xl border-1 bg-red-500 px-5 py-2 shadow-lg hover:bg-white animation ease-in-out duration-500 float-right"
+        (click)="exportExcel()"
+        class="rounded-xl border-1 bg-red-500 py-2 shadow-lg hover:bg-white animation ease-in-out duration-500 float-right"
       >
         Generate Excel
       </button>
     </div>
   </div>
+  
+  <div class="overflow-x-auto">
+    <table >
+      <thead>
+        <tr>
+          <td colspan="3"></td>
+          <td colspan="4">Waktu</td>
+          <td colspan="8"></td>
+          <td colspan="3">Pelaksana</td>
+          <td colspan="3"></td>
+        </tr>
+        <tr>
+          <td class="px-10 whitespace-nowrap">Shift</td>
+          <td class="px-10 whitespace-nowrap">Hari, Tanggal, Bulan</td>
+          <td class="px-10 whitespace-nowrap">Jenis Pekerjaan</td>
+          <td class="px-10 whitespace-nowrap">Informasi Masalah</td>
+          <td class="px-10 whitespace-nowrap">Mulai Kerja</td>
+          <td class="px-10 whitespace-nowrap">Selesai Kerja</td>
+          <td class="px-10 whitespace-nowrap">Total Kerja</td>
+          <td class="px-10 whitespace-nowrap">Plant Stop</td>
+          <td class="px-10 whitespace-nowrap">Fungsional Lokasi</td>
+          <td class="px-10 whitespace-nowrap">Sub Fungsional Lokasi</td>
+          <td class="px-10 whitespace-nowrap">Mesin/Alat</td>
+          <td class="px-10 whitespace-nowrap">Detail Mesin/Alat</td>
+          <td class="px-10 whitespace-nowrap">Masalah</td>
+          <td class="px-10 whitespace-nowrap">Penyebab</td>
+          <td class="px-10 whitespace-nowrap">Bias</td>
+          <td class="px-10 whitespace-nowrap">Tindakan</td>
+          <td class="px-10 whitespace-nowrap">Pertama</td>
+          <td class="px-10 whitespace-nowrap">Kedua</td>
+          <td class="px-10 whitespace-nowrap">Tambahan</td>
+          <td class="px-10 whitespace-nowrap">Kondisi</td>
+          <td class="px-10 whitespace-nowrap">
+            Alasan Bila Kondisi Belum Selesai
+          </td>
+          <td class="px-10 whitespace-nowrap">Catatan</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let elemen of reportTxns
+              | paginate
+                : {
+                    itemsPerPage: tableSize,
+                    currentPage: page,
+                    totalItems: count
+                  }
+          " class=""
+        >
+          <td>{{ elemen.shift }}</td>
+          <td class="whitespace-nowrap px-6 py-2" >{{formatDate(elemen.datecreated)}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.jobtype}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.timeinformed}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.starttime}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.finishtime}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.totaltime}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.stoppagetime}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.functionallocation}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.subfunctionallocation}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.machine}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.detailmachine}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.problem}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.cause}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.bias}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.action}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.executor1}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.executor2}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.executorextra}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.condition}}</td>
+          <td class="" >{{elemen.reason}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >{{elemen.note}}</td>
+          <td cclass="whitespace-nowrap px-6 py-2" >
+            <button
+                mat-icon-button
+                [matMenuTriggerFor]="menu"
+                aria-label="Example icon-button with a menu"
+              >
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                  <span>Edit</span>
+                </button>
+                <button
+                  mat-menu-item
+                  (click)="openDialog(elemen.reporttransactionid)"
+                >
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+          </td>
+          
 
+
+        </tr>
+      </tbody>
+    </table>
+
+    
+  </div>
+  <div class="inline-flex place-items-center float-right">
+    <span class="px-3">
+      Show
+    </span>
+    <select [(ngModel)]="tableSize" class="px-3 border-2 rounded-md">
+      <option *ngFor="let elemen of tableSizes" [value]="elemen">
+        {{ elemen }}
+      </option>
+    </select>
+    <pagination-controls class="my-pagination pt-3"
+      previousLabel="Prev"
+      nextLabel="Next"
+      (pageChange)="onPageChange($event)"
+    ></pagination-controls>
+  </div>
+  <!-- 
   <div class="overflow-x-auto p-4 fle">
     <table mat-table [dataSource]="dataSource" class="">
       <div class="firstHeader">
@@ -238,11 +355,11 @@
         Test
       </tr>
     </table>
-  </div>
-  <div>
+  </div> -->
+  <!-- <div>
     <mat-paginator
       [pageSizeOptions]="[5, 10, 25, 100]"
       aria-label="Select page"
     ></mat-paginator>
-  </div>
+  </div> -->
 </div>
