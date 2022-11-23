@@ -18,7 +18,7 @@
   <div
     class="relative inline-flex place-items-center w-full bg-transparent px-5"
   >
-    <span class="text-sm pb-5 ml-3"> Periode </span>
+    <span class="pb-5 ml-3 font-[400] text-[16] text-black"> Periode </span>
     <div class="m-4">
       <mat-form-field appearance="outline">
         <mat-label>Start Date</mat-label>
@@ -33,7 +33,7 @@
         <mat-datepicker #start></mat-datepicker>
       </mat-form-field>
     </div>
-    <span class="text-lg pb-5 m-5"> - </span>
+    <span class="pb-5 m-1 font-[400] text-[22] text-black"> — </span>
     <div class="m-3">
       <mat-form-field appearance="outline">
         <mat-label>End Date</mat-label>
@@ -48,8 +48,8 @@
         <mat-datepicker #end></mat-datepicker>
       </mat-form-field>
     </div>
-    <span class="text-sm pb-5 m-3"> Fungsional Lokasi</span>
-    <div>
+    <span class="pb-5 ml-3 font-[400] text-[16] text-black"> Fungsional Lokasi</span>
+    <div class="pl-4">
       <mat-form-field appearance="outline">
         <mat-select [(ngModel)]="functionalLocationId">
           <mat-option
@@ -68,7 +68,7 @@
     <div class="absolute right-0 px-4">
       <button
         (click)="exportExcel()"
-        class="rounded-3xl border-1 bg-red-500 py-2 shadow-lg animation ease-in-out duration-500"
+        class="rounded-3xl border-1 bg-[#1CA19F] py-2 px-2 shadow-lg animation ease-in-out duration-500"
       >
         <div class="inline-flex place-item-center">
           <div class="px-4 pt-1.5">
@@ -101,42 +101,42 @@
             <td colspan="3"></td>
           </tr>
           <tr class="border-b-2 border-cyan-800">
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Shift</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Shift</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">
               Hari, Tanggal, Bulan
             </td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">
               Jenis Pekerjaan
             </td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">
               Informasi Masalah
             </td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Mulai Kerja</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Selesai Kerja</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Total Kerja</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Plant Stop</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Mulai Kerja</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Selesai Kerja</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Total Kerja</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Plant Stop</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">
               Fungsional Lokasi
             </td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">
               Sub Fungsional Lokasi
             </td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Mesin/Alat</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Mesin/Alat</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">
               Detail Mesin/Alat
             </td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Masalah</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Penyebab</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Bias</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Tindakan</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Pertama</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Kedua</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Tambahan</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Kondisi</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Masalah</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Penyebab</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Bias</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Tindakan</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Pertama</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Kedua</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Tambahan</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Kondisi</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">
               Alasan Bila Kondisi Belum Selesai
             </td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Catatan</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left font-[700] text-[14px] text-[#226A69]">Catatan</td>
           </tr>
         </thead>
         <tbody>

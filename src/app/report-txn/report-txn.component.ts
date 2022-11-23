@@ -172,8 +172,8 @@ export class ReportTxnComponent implements AfterViewInit {
   openDialog(id: number) {
     const dialogRef = this.dialog.open(WarningDialogComponent, {
       restoreFocus: false,
-      width: '600px',
-      height: '600px',
+      width: '619px',
+      height: '212px',
       data: id,
     });
 

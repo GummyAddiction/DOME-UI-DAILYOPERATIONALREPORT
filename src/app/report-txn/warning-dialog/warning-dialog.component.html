@@ -1,14 +1,25 @@
-<div >
-  <mat-dialog-content> Yakin ingin hapus ?</mat-dialog-content>
-  <div class="inline-flex place-items-center">
-    <mat-dialog-actions>
-      <button mat-button mat-dialog-close (click)="deleteReportTxn(data)">
-        Okay
+<div>
+  <mat-dialog-content>
+    <div class="font-[700] text-[14px] text-[#226A69] text-center">
+      Yakin ingin hapus ?
+    </div></mat-dialog-content
+  >
+  <div class="flex justify-center">
+      <button
+        class="rounded-3xl border-2 bg-white py-2 px-2 animation ease-in-out duration-500 border-[#1CA19F]"
+      >
+        <div class="inline-flex place-item-center">
+          <span class="px-3 pt-1 font-medium text-[#1CA19F]"> Tidak </span>
+        </div>
       </button>
-    </mat-dialog-actions>
-    <mat-dialog-actions>
-      <button mat-button mat-dialog-close>Cancel</button>
-    </mat-dialog-actions>
+
+      <button
+        (click)="deleteReportTxn(data)"
+        class="rounded-3xl border-1 py-2 px-2 animation ease-in-out duration-500 bg-[#1CA19F]"
+      >
+        <div class="inline-flex place-item-center">
+          <span class="px-3 pt-1 font-medium text-white"> Ya </span>
+        </div>
+      </button>
   </div>
 </div>
-
