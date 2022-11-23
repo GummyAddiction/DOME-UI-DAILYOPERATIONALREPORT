@@ -26,6 +26,7 @@ import { WarningDialogComponent } from './warning-dialog/warning-dialog.componen
 import { PaginationInstance } from 'ngx-pagination';
 import * as dayjs from 'dayjs';
 import * as updateLocale from 'dayjs/plugin/updateLocale';
+import { coerceStringArray } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'app-report-txn',
@@ -38,65 +39,31 @@ export class ReportTxnComponent implements AfterViewInit {
 
   startDate!: Date;
   endDate!: Date;
-
-  range = new FormGroup({
-    start: new FormControl<Date | null>(null),
-    end: new FormControl<Date | null>(null),
-  });
-
   title: string = 'ReportTxn';
   dataSource = new MatTableDataSource<ReportTxn>();
   reportTxns: ReportTxn[] = [];
   functionalLocationId!: string;
   allFunctionalLocationId!: string;
   functionalLocation: FunctionalLocation[] = [];
-  functionalLocationForm = new FormControl('');
-  functionalLocationModel: FunctionalLocationModel[] = [];
-
-  // this.formGroup.get('name of you control').value   -> cara ambil value dari formGroup
 
   // percobaan excel ecport
   data: any[] = [];
   columns: any[] = [];
   footerData: any[][] = [];
-  totalSalesAmount = 0;
+
+  page: number = 1;
+  count: number = 0;
+  tableSize: number = 10;
+  tableSizes: any = [10, 20, 50, 100];
+
+  public lastUpdateDate:string=''
+
 
   constructor(
     private reportService: ReportService,
     public excelExportService: ExcelExportService,
     public dialog: MatDialog
   ) {}
-
-  public displayedColumns = [
-    'shift',
-    'datecreated',
-    'jobtype',
-    'timeinformed',
-    'starttime',
-    'finishtime',
-    'totaltime',
-    'stoppagetime',
-    'functionallocation',
-    'subfunctionallocation',
-    'machine',
-    'detailmachine',
-    'problem',
-    'cause',
-    'bias',
-    'action',
-    'executor1',
-    'executor2',
-    'executorextra',
-    'condition',
-    'reason',
-    'note',
-    'option',
-  ];
-
-  page: number = 1;
-  count: number = 0;
-  tableSize: number = 10;
-  tableSizes: any = [10, 20, 50, 100];
 
   ngAfterViewInit(): void {
     // yg dijalanin pas awal mulai
@@ -137,24 +104,11 @@ export class ReportTxnComponent implements AfterViewInit {
 
   displayReportTxn() {
     // function pas tombol submit dipencet
-    // alert("Test Display");
     let init: number = 0;
     const datepipe: DatePipe = new DatePipe('en-US');
 
     let formattedStart = datepipe.transform(this.startDate, 'YYYY-MM-dd');
     let formattedEnd = datepipe.transform(this.endDate, 'YYYY-MM-dd');
-
-    // this.functionalLocation = JSON.parse(
-    //   JSON.stringify(this.functionalLocationForm.value)
-    // );
-    // this.functionalLocationId = this.functionalLocation.map(
-    //   (data) => data.functionallocationid
-    // );
-    // this,
-    //   this.functionalLocationId.forEach(function (value) {
-    //     console.log('isi 1 1');
-    //     console.log(value);
-    //   });
 
     this.getReportTxns(
       formattedStart + '',
@@ -163,6 +117,9 @@ export class ReportTxnComponent implements AfterViewInit {
     );
     this.functionalLocationId = '';
     this.getFunctionalLocation();
+
+    const now = new Date();
+    this.lastUpdateDate = dayjs(now).format('dddd, DD MMMM HH:mm:ss')
   }
 
   public getReportTxns(

@@ -1,5 +1,23 @@
-<div>
-  <div class="relative inline-flex place-items-center w-full bg-transparent px-5">
+<div class="font-sans">
+  <div class="p-5">
+    <div class="font-[700] text-[28px] text-[#226A69]">
+      Report Maintenance CPC Alam Sutera
+    </div>
+    <div
+      class="font-[400] text-[20px] text-[#65748B] py-3"
+      *ngIf="lastUpdateDate != ''; else elseBlock"
+    >
+      Last update {{ lastUpdateDate }}
+    </div>
+
+    <ng-template #elseBlock>
+      <div id="else" class="font-[400] text-[20px] text-[#65748B] py-3">
+        Last Update -</div
+    ></ng-template>
+  </div>
+  <div
+    class="relative inline-flex place-items-center w-full bg-transparent px-5"
+  >
     <span class="text-sm pb-5 ml-3"> Periode </span>
     <div class="m-4">
       <mat-form-field appearance="outline">
@@ -61,15 +79,25 @@
       </button>
     </div>
   </div>
-  <div class="px-5 bg-white" id="mainTxnTable" >
+  <div class="px-5 bg-white" id="mainTxnTable">
     <div class="overflow-x-auto px-3">
       <table>
         <thead>
           <tr>
             <td colspan="3"></td>
-            <td colspan="4" class="text-center rounded-md bg-teal-200 font-medium">Waktu</td>
+            <td
+              colspan="4"
+              class="text-center rounded-md bg-[#D0E1E1] font-[700] text-[14px] text-[#226A69]"
+            >
+              Waktu
+            </td>
             <td colspan="8"></td>
-            <td colspan="3" class="text-center rounded-md bg-teal-200 font-medium">Pelaksana</td>
+            <td
+              colspan="3"
+              class="text-center rounded-md bg-[#D0E1E1] font-[700] text-[14px] text-[#226A69]"
+            >
+              Pelaksana
+            </td>
             <td colspan="3"></td>
           </tr>
           <tr class="border-b-2 border-cyan-800">
@@ -77,18 +105,26 @@
             <td class="px-5 pb-2 whitespace-nowrap text-left">
               Hari, Tanggal, Bulan
             </td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Jenis Pekerjaan</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Informasi Masalah</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">
+              Jenis Pekerjaan
+            </td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">
+              Informasi Masalah
+            </td>
             <td class="px-5 pb-2 whitespace-nowrap text-left">Mulai Kerja</td>
             <td class="px-5 pb-2 whitespace-nowrap text-left">Selesai Kerja</td>
             <td class="px-5 pb-2 whitespace-nowrap text-left">Total Kerja</td>
             <td class="px-5 pb-2 whitespace-nowrap text-left">Plant Stop</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Fungsional Lokasi</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">
+              Fungsional Lokasi
+            </td>
             <td class="px-5 pb-2 whitespace-nowrap text-left">
               Sub Fungsional Lokasi
             </td>
             <td class="px-5 pb-2 whitespace-nowrap text-left">Mesin/Alat</td>
-            <td class="px-5 pb-2 whitespace-nowrap text-left">Detail Mesin/Alat</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">
+              Detail Mesin/Alat
+            </td>
             <td class="px-5 pb-2 whitespace-nowrap text-left">Masalah</td>
             <td class="px-5 pb-2 whitespace-nowrap text-left">Penyebab</td>
             <td class="px-5 pb-2 whitespace-nowrap text-left">Bias</td>
