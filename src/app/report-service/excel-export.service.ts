@@ -12,7 +12,7 @@ const EXCEL_EXTENSION = '.xlsx';
 @Injectable({providedIn: 'root'})
 export class ExcelExportService {
 
-    totalTime:string[]=[]
+    totalPlantTime:string[]=[]
 
     constructor() {}
 
@@ -20,6 +20,7 @@ export class ExcelExportService {
     public exportAsExcelFile(reportHeading : string, reportSubHeading : string, headersArray : any[], json : any[], footerData : any, excelFileName : string, sheetName : string) {
         const header = headersArray;
         const data = json;
+        this.totalPlantTime =[]
 
 
         dayjs.extend(updateLocale)
@@ -84,90 +85,17 @@ export class ExcelExportService {
         worksheet.getCell('Q6').value = "Bias";
         worksheet.mergeCells('R5:R6');
         worksheet.getCell('R6').value = "Tindakan";
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // // console.log(json)
-
-
-
-        // /* Add Header Row */
-        // worksheet.addRow([]);
-        // worksheet.mergeCells('A1:' + this.numToAlpha(header.length - 1) + '1');
-        // worksheet.getCell('A1').value = reportHeading;
-        // worksheet.getCell('A1').alignment = {
-        //     horizontal: 'center'
-        // };
-        // worksheet.getCell('A1').font = {
-        //     size: 15,
-        //     bold: true
-        // };
-
-        // if (reportSubHeading !== '') {
-        //     worksheet.addRow([]);
-        //     worksheet.mergeCells('A2:' + this.numToAlpha(header.length - 1) + '2');
-        //     worksheet.getCell('A2').value = reportSubHeading;
-        //     worksheet.getCell('A2').alignment = {
-        //         horizontal: 'center'
-        //     };
-        //     worksheet.getCell('A2').font = {
-        //         size: 12,
-        //         bold: false
-        //     };
-        // }
-
-        //worksheet.addRow([]);
-
-        /* Add Header Row */
-        //const headerRow = worksheet.addRow(header);
-
-        // Cell Style : Fill and Border
-        // headerRow.eachCell((cell, index) => {
-        //     cell.fill = {
-        //         type: 'pattern',
-        //         pattern: 'solid',
-        //         fgColor: {
-        //             argb: 'FFFFFF00'
-        //         },
-        //         bgColor: {
-        //             argb: 'FF0000FF'
-        //         }
-        //     };
-        //     cell.border = {
-        //         top: {
-        //             style: 'thin'
-        //         },
-        //         left: {
-        //             style: 'thin'
-        //         },
-        //         bottom: {
-        //             style: 'thin'
-        //         },
-        //         right: {
-        //             style: 'thin'
-        //         }
-        //     };
-        //     cell.font = {
-        //         size: 12,
-        //         bold: true
-        //     };
-
-        //     worksheet.getColumn(index).width = header[index - 1].length < 20 ? 20 : header[index - 1].length;
-        // });
+        worksheet.mergeCells('S5:U5');
+        worksheet.getCell('S5').value = 'Pelaksana';
+        worksheet.getCell('S6').value = 'Pertama';
+        worksheet.getCell('T6').value = 'Kedua';
+        worksheet.getCell('U6').value = 'Tambahan';
+        worksheet.mergeCells('V5:V6');
+        worksheet.getCell('V5').value = "Kond";
+        worksheet.mergeCells('W5:W6');
+        worksheet.getCell('W5').value = "Alasan Bila Kondisi Belum Selesai";
+        worksheet.mergeCells('X5:X6');
+        worksheet.getCell('X5').value = "Catatan";
 
         // Get all columns from JSON
         let columnsArray: any[];
@@ -180,6 +108,8 @@ export class ExcelExportService {
         // Add Data and Conditional Formatting
         data.forEach((element : any) => {
 
+
+
             const eachRow: any[] = [];
 
             // eachRow.push(element.name)
@@ -189,7 +119,10 @@ export class ExcelExportService {
             //     console.log(element.name)
             // });
 
-            console.log(dayjs(element.datecreated).format('dddd'));
+            this.totalPlantTime.push(this.formatTotalTime(element.stoppagetime))
+            console.log(this.totalPlantTime)
+
+            //console.log(dayjs(element.datecreated).format('dddd'));
 
             eachRow.push(element.shift);
             eachRow.push(dayjs(element.datecreated).format('dddd'));
@@ -199,15 +132,15 @@ export class ExcelExportService {
             eachRow.push(dayjs(element.timeinformed).format('HH:mm'));
             eachRow.push(dayjs(element.starttime).format('HH:mm'));
             eachRow.push(dayjs(element.finishtime).format('HH:mm'));
-            eachRow.push(element.totaltime);
-            eachRow.push(element.stoppagetime);
+            eachRow.push(this.formatTimeHHMM(element.totaltime));
+            eachRow.push(this.formatTimeHHMM(element.stoppagetime));
             eachRow.push(element.functionallocation);
             eachRow.push(element.subfunctionallocation);
             eachRow.push(element.machine);
             eachRow.push(element.detailmachine);
             eachRow.push(element.problem);
             eachRow.push(element.cause);
-            eachRow.push(element.name);
+            eachRow.push(element.bias);
             eachRow.push(element.action);
             eachRow.push(element.executor1);
             eachRow.push(element.executor2);
@@ -216,7 +149,7 @@ export class ExcelExportService {
             eachRow.push(element.reason);
             eachRow.push(element.note);
 
-            console.log(eachRow);
+            //console.log(eachRow);
 
             if (element.isDeleted === 'Y') {
                 const deletedRow = worksheet.addRow(eachRow);
@@ -233,6 +166,16 @@ export class ExcelExportService {
                 worksheet.addRow(eachRow);
             }
         });
+
+        worksheet.getCell('J5').value=this.sumTime(this.totalPlantTime)
+
+
+
+        console.log(`Total time : ${this.sumTime(this.totalPlantTime)}`)
+
+
+
+
 
         worksheet.addRow([]);
 
@@ -304,6 +247,29 @@ export class ExcelExportService {
           sec=''+s
         }
         return (hour+':'+min)
+      }
+
+
+      formatTotalTime(time:string){
+        if(time == null){
+            time='00:00:00'
+        }
+        if(time.length >= 8){
+            return time.substring(0,8)
+        }else{
+            return '00:00:00'
+        }
+      }
+
+      formatTimeHHMM(time:string){
+        if(time == null){
+            time='00:00'
+        }
+        if(time.length >= 6){
+            return time.substring(0,5)
+        }else{
+            return '00:00'
+        }
       }
 
 

@@ -1,7 +1,7 @@
 <div>
-  <div class="inline-flex place-items-center w-full border-8">
-    <span class="text-lg pb-5 m-3"> Periode </span>
-    <div class="m-3">
+  <div class="relative inline-flex place-items-center w-full bg-transparent px-5">
+    <span class="text-sm pb-5 ml-3"> Periode </span>
+    <div class="m-4">
       <mat-form-field appearance="outline">
         <mat-label>Start Date</mat-label>
         <input
@@ -15,7 +15,7 @@
         <mat-datepicker #start></mat-datepicker>
       </mat-form-field>
     </div>
-    <span class="text-lg pb-5 m-3"> - </span>
+    <span class="text-lg pb-5 m-5"> - </span>
     <div class="m-3">
       <mat-form-field appearance="outline">
         <mat-label>End Date</mat-label>
@@ -30,323 +30,135 @@
         <mat-datepicker #end></mat-datepicker>
       </mat-form-field>
     </div>
-    <!-- <div>
-      <mat-form-field appearance="outline" style="width: 250px">
-        <mat-label>Functional Location</mat-label>
-        <mat-select
-          [formControl]="functionalLocationForm"
-          multiple
-          disableOptionCentering
-          (selectionChange)="selectFunctionalLocation($event.value)"
-          (click)="getFunctionalLocation()"
-        >
-          <mat-option *ngFor="let data of functionalLocation" [value]="data">{{
-            data.name
-          }}</mat-option>
+    <span class="text-sm pb-5 m-3"> Fungsional Lokasi</span>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-select [(ngModel)]="functionalLocationId">
+          <mat-option
+            *ngFor="let element of functionalLocation"
+            [value]="element.functionallocationid"
+            (click)="selectFunctionalLocation()"
+          >
+            {{ element.name }}
+          </mat-option>
+          <mat-option value="All" (click)="selectFunctionalLocation()"
+            >All</mat-option
+          >
         </mat-select>
       </mat-form-field>
-    </div> -->
-    <div>
-      <select
-        [(ngModel)]="functionalLocationId"
-        (change)="selectFunctionalLocation()" 
-        class="border-2 rounded-lg p-4 mb-4"
-      >
-        <option
-          *ngFor="let element of functionalLocation"
-          [value]="element.functionallocationid"
-        >
-          {{ element.name }}
-        </option>
-        <option>All</option>
-      </select>
     </div>
-    <!-- <div class="flow-left pb-5">
-      <button
-        (click)="displayReportTxn()"
-        class="mx-10 rounded-xl border-1 bg-red-500 px-5 py-2 shadow-lg hover:bg-white animation ease-in-out duration-500"
-      >
-        Submit
-      </button>
-    </div> -->
-    <div class="p-4">
+    <div class="absolute right-0 px-4">
       <button
         (click)="exportExcel()"
-        class="rounded-xl border-1 bg-red-500 py-2 shadow-lg hover:bg-white animation ease-in-out duration-500"
+        class="rounded-3xl border-1 bg-red-500 py-2 shadow-lg animation ease-in-out duration-500"
       >
-        Generate Excel
+        <div class="inline-flex place-item-center">
+          <div class="px-4 pt-1.5">
+            <img src="../../assets/icons/download.png" width="15" />
+          </div>
+          <span class="px-3 pt-1 font-medium text-white"> Export as XLS </span>
+        </div>
       </button>
     </div>
   </div>
-
-  <div class="overflow-x-auto">
-    <table>
-      <thead>
-        <tr>
-          <td colspan="3"></td>
-          <td colspan="4">Waktu</td>
-          <td colspan="8"></td>
-          <td colspan="3">Pelaksana</td>
-          <td colspan="3"></td>
-        </tr>
-        <tr>
-          <td class="px-10 whitespace-nowrap">Shift</td>
-          <td class="px-10 whitespace-nowrap">Hari, Tanggal, Bulan</td>
-          <td class="px-10 whitespace-nowrap">Jenis Pekerjaan</td>
-          <td class="px-10 whitespace-nowrap">Informasi Masalah</td>
-          <td class="px-10 whitespace-nowrap">Mulai Kerja</td>
-          <td class="px-10 whitespace-nowrap">Selesai Kerja</td>
-          <td class="px-10 whitespace-nowrap">Total Kerja</td>
-          <td class="px-10 whitespace-nowrap">Plant Stop</td>
-          <td class="px-10 whitespace-nowrap">Fungsional Lokasi</td>
-          <td class="px-10 whitespace-nowrap">Sub Fungsional Lokasi</td>
-          <td class="px-10 whitespace-nowrap">Mesin/Alat</td>
-          <td class="px-10 whitespace-nowrap">Detail Mesin/Alat</td>
-          <td class="px-10 whitespace-nowrap">Masalah</td>
-          <td class="px-10 whitespace-nowrap">Penyebab</td>
-          <td class="px-10 whitespace-nowrap">Bias</td>
-          <td class="px-10 whitespace-nowrap">Tindakan</td>
-          <td class="px-10 whitespace-nowrap">Pertama</td>
-          <td class="px-10 whitespace-nowrap">Kedua</td>
-          <td class="px-10 whitespace-nowrap">Tambahan</td>
-          <td class="px-10 whitespace-nowrap">Kondisi</td>
-          <td class="px-10 whitespace-nowrap">
-            Alasan Bila Kondisi Belum Selesai
-          </td>
-          <td class="px-10 whitespace-nowrap">Catatan</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="
-            let elemen of reportTxns
-              | paginate
-                : {
-                    itemsPerPage: tableSize,
-                    currentPage: page,
-                    totalItems: count
-                  }
-          "
-          class=""
-        >
-          <td>{{ elemen.shift }}</td>
-          <td class="whitespace-nowrap px-6 py-2">
-            {{ formatDate(elemen.datecreated) }}
-          </td>
-          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.jobtype }}</td>
-          <td cclass="whitespace-nowrap px-6 py-2">
-            {{ elemen.timeinformed }}
-          </td>
-          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.starttime }}</td>
-          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.finishtime }}</td>
-          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.totaltime.substring(0,8) }}</td>
-          <td cclass="whitespace-nowrap px-6 py-2">
-            {{ elemen.stoppagetime }}
-          </td>
-          <td cclass="whitespace-nowrap px-6 py-2">
-            {{ elemen.functionallocation }}
-          </td>
-          <td cclass="whitespace-nowrap px-6 py-2">
-            {{ elemen.subfunctionallocation }}
-          </td>
-          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.machine }}</td>
-          <td cclass="whitespace-nowrap px-6 py-2">
-            {{ elemen.detailmachine }}
-          </td>
-          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.problem }}</td>
-          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.cause }}</td>
-          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.bias }}</td>
-          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.action }}</td>
-          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.executor1 }}</td>
-          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.executor2 }}</td>
-          <td cclass="whitespace-nowrap px-6 py-2">
-            {{ elemen.executorextra }}
-          </td>
-          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.condition }}</td>
-          <td class="">{{ elemen.reason }}</td>
-          <td cclass="whitespace-nowrap px-6 py-2">{{ elemen.note }}</td>
-          <td cclass="whitespace-nowrap px-6 py-2">
-            <button
-              mat-icon-button
-              [matMenuTriggerFor]="menu"
-              aria-label="Example icon-button with a menu"
-            >
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <span>Edit</span>
-              </button>
-              <button
-                mat-menu-item
-                (click)="openDialog(elemen.reporttransactionid)"
-              >
-                <span>Delete</span>
-              </button>
-            </mat-menu>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="inline-flex place-items-center float-right">
-    <span class="px-3"> Show </span>
-    <select [(ngModel)]="tableSize" class="px-3 border-2 rounded-md">
-      <option *ngFor="let elemen of tableSizes" [value]="elemen">
-        {{ elemen }}
-      </option>
-    </select>
-    <pagination-controls
-      class="my-pagination pt-3"
-      previousLabel="Prev"
-      nextLabel="Next"
-      (pageChange)="onPageChange($event)"
-    ></pagination-controls>
-  </div>
-  <!-- 
-  <div class="overflow-x-auto p-4 fle">
-    <table mat-table [dataSource]="dataSource" class="">
-      <div class="firstHeader">
-        <ng-container matColumnDef="empty1">
-          <th mat-header-cell *matHeaderCellDef [attr.colspan]="3"></th>
-        </ng-container>
-        <ng-container matColumnDef="waktu">
-          <th mat-header-cell *matHeaderCellDef [attr.colspan]="4">Waktu</th>
-        </ng-container>
-        <ng-container matColumnDef="empty2">
-          <th mat-header-cell *matHeaderCellDef [attr.colspan]="9"></th>
-        </ng-container>
-        <ng-container matColumnDef="pelaksana">
-          <th mat-header-cell *matHeaderCellDef [attr.colspan]="3">
-            Pelaksana
-          </th>
-        </ng-container>
-        <ng-container matColumnDef="empty3">
-          <th mat-header-cell *matHeaderCellDef [attr.colspan]="4"></th>
-        </ng-container>
-      </div>
-      <div class="secondHeader">
-        <ng-container matColumnDef="shift">
-          <th mat-header-cell *matHeaderCellDef>shift</th>
-          <td mat-cell *matCellDef="let element">{{ element.shift }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="datecreated">
-          <th mat-header-cell *matHeaderCellDef>datecreated</th>
-          <td mat-cell *matCellDef="let element">{{ element.datecreated }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="jobtype">
-          <th mat-header-cell *matHeaderCellDef>jobtype</th>
-          <td mat-cell *matCellDef="let element">{{ element.jobtype }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="timeinformed">
-          <th mat-header-cell *matHeaderCellDef>timeinformed</th>
-          <td mat-cell *matCellDef="let element">{{ element.timeinformed }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="starttime">
-          <th mat-header-cell *matHeaderCellDef>starttime</th>
-          <td mat-cell *matCellDef="let element">{{ element.starttime }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="finishtime">
-          <th mat-header-cell *matHeaderCellDef>finishtime</th>
-          <td mat-cell *matCellDef="let element">{{ element.finishtime }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="totaltime">
-          <th mat-header-cell *matHeaderCellDef>totaltime</th>
-          <td mat-cell *matCellDef="let element">{{ element.totaltime }}</td>
-        </ng-container>
-        <ng-container matColumnDef="stoppagetime">
-          <th mat-header-cell *matHeaderCellDef>totaltime</th>
-          <td mat-cell *matCellDef="let element">{{ element.stoppagetime }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="functionallocation">
-          <th mat-header-cell *matHeaderCellDef>functionallocation</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.functionallocation }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="subfunctionallocation">
-          <th mat-header-cell *matHeaderCellDef>subfunctionallocation</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.subfunctionallocation }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="machine">
-          <th mat-header-cell *matHeaderCellDef>machine</th>
-          <td mat-cell *matCellDef="let element">{{ element.machine }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="detailmachine">
-          <th mat-header-cell *matHeaderCellDef>detailmachine</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.detailmachine }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="problem">
-          <th mat-header-cell *matHeaderCellDef>problem</th>
-          <td mat-cell *matCellDef="let element">{{ element.problem }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="cause">
-          <th mat-header-cell *matHeaderCellDef>cause</th>
-          <td mat-cell *matCellDef="let element">{{ element.cause }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="bias">
-          <th mat-header-cell *matHeaderCellDef>bias</th>
-          <td mat-cell *matCellDef="let element">{{ element.bias }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>action</th>
-          <td mat-cell *matCellDef="let element">{{ element.action }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="executor1">
-          <th mat-header-cell *matHeaderCellDef>executor1</th>
-          <td mat-cell *matCellDef="let element">{{ element.executor1 }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="executor2">
-          <th mat-header-cell *matHeaderCellDef>executor2</th>
-          <td mat-cell *matCellDef="let element">{{ element.executor2 }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="executorextra">
-          <th mat-header-cell *matHeaderCellDef>executorextra</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.executorextra }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="condition">
-          <th mat-header-cell *matHeaderCellDef>condition</th>
-          <td mat-cell *matCellDef="let element">{{ element.condition }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="reason">
-          <th mat-header-cell *matHeaderCellDef>reason</th>
-          <td mat-cell *matCellDef="let element">{{ element.reason }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="note">
-          <th mat-header-cell *matHeaderCellDef>note</th>
-          <td mat-cell *matCellDef="let element">{{ element.note }}</td>
-        </ng-container>
-
-        <th>
-          <ng-container matColumnDef="option">
-            <th mat-header-cell *matHeaderCellDef>Option</th>
-            <td mat-cell *matCellDef="let element">
+  <div class="px-5 bg-white" id="mainTxnTable" >
+    <div class="overflow-x-auto px-3">
+      <table>
+        <thead>
+          <tr>
+            <td colspan="3"></td>
+            <td colspan="4" class="text-center rounded-md bg-teal-200 font-medium">Waktu</td>
+            <td colspan="8"></td>
+            <td colspan="3" class="text-center rounded-md bg-teal-200 font-medium">Pelaksana</td>
+            <td colspan="3"></td>
+          </tr>
+          <tr class="border-b-2 border-cyan-800">
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Shift</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">
+              Hari, Tanggal, Bulan
+            </td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Jenis Pekerjaan</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Informasi Masalah</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Mulai Kerja</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Selesai Kerja</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Total Kerja</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Plant Stop</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Fungsional Lokasi</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">
+              Sub Fungsional Lokasi
+            </td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Mesin/Alat</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Detail Mesin/Alat</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Masalah</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Penyebab</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Bias</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Tindakan</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Pertama</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Kedua</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Tambahan</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Kondisi</td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">
+              Alasan Bila Kondisi Belum Selesai
+            </td>
+            <td class="px-5 pb-2 whitespace-nowrap text-left">Catatan</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let elemen of reportTxns
+                | paginate
+                  : {
+                      itemsPerPage: tableSize,
+                      currentPage: page,
+                      totalItems: count
+                    }
+            "
+            class="border-b border-cyan-800"
+          >
+            <td class="whitespace-nowrap pl-4 py-2">{{ elemen.shift }}</td>
+            <td class="whitespace-nowrap pl-4 py-2">
+              {{ formatDate(elemen.datecreated) }}
+            </td>
+            <td class="whitespace-nowrap pl-4 py-2">{{ elemen.jobtype }}</td>
+            <td class="whitespace-nowrap pl-4 py-2">
+              {{ formatDateTimeHHMM(elemen.timeinformed) }}
+            </td>
+            <td class="whitespace-nowrap pl-4 py-2">
+              {{ formatDateTimeHHMM(elemen.starttime) }}
+            </td>
+            <td class="whitespace-nowrap pl-4 py-2">
+              {{ formatDateTimeHHMM(elemen.finishtime) }}
+            </td>
+            <td class="whitespace-nowrap pl-4 py-2">
+              {{ formatTimeHHMM(elemen.totaltime) }}
+            </td>
+            <td class="whitespace-nowrap pl-4 py-2">
+              {{ formatTimeHHMM(elemen.stoppagetime) }}
+            </td>
+            <td class="whitespace-nowrap pl-4 py-2">
+              {{ elemen.functionallocation }}
+            </td>
+            <td class="whitespace-nowrap pl-4 py-2">
+              {{ elemen.subfunctionallocation }}
+            </td>
+            <td class="whitespace-nowrap pl-4 py-2">{{ elemen.machine }}</td>
+            <td class="whitespace-nowrap pl-4 py-2">
+              {{ elemen.detailmachine }}
+            </td>
+            <td class="whitespace-nowrap pl-4 py-2">{{ elemen.problem }}</td>
+            <td class="whitespace-nowrap pl-4 py-2">{{ elemen.cause }}</td>
+            <td class="whitespace-nowrap pl-4 py-2">{{ elemen.bias }}</td>
+            <td class="whitespace-nowrap pl-4 py-2">{{ elemen.action }}</td>
+            <td class="whitespace-nowrap pl-4 py-2">{{ elemen.executor1 }}</td>
+            <td class="whitespace-nowrap pl-4 py-2">{{ elemen.executor2 }}</td>
+            <td class="whitespace-nowrap pl-4 py-2">
+              {{ elemen.executorextra }}
+            </td>
+            <td class="whitespace-nowrap pl-4 py-2">{{ elemen.condition }}</td>
+            <td class="whitespace-nowrap pl-4 py-2">{{ elemen.reason }}</td>
+            <td class="whitespace-nowrap pl-4 py-2">{{ elemen.note }}</td>
+            <td class="whitespace-nowrap pl-4 py-2">
               <button
                 mat-icon-button
                 [matMenuTriggerFor]="menu"
@@ -360,30 +172,29 @@
                 </button>
                 <button
                   mat-menu-item
-                  (click)="openDialog(element.reporttransactionid)"
+                  (click)="openDialog(elemen.reporttransactionid)"
                 >
                   <span>Delete</span>
                 </button>
               </mat-menu>
             </td>
-          </ng-container>
-        </th>
-      </div>
-      <tr
-        mat-header-row
-        *matHeaderRowDef="['empty1', 'waktu', 'empty2', 'pelaksana', 'empty3']"
-      ></tr>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      <tr>
-        Test
-      </tr>
-    </table>
-  </div> -->
-  <!-- <div>
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 25, 100]"
-      aria-label="Select page"
-    ></mat-paginator>
-  </div> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="inline-flex place-items-center float-right">
+      <span class="px-3"> Show </span>
+      <select [(ngModel)]="tableSize" class="px-3 border-2 rounded-md">
+        <option *ngFor="let elemen of tableSizes" [value]="elemen">
+          {{ elemen }}
+        </option>
+      </select>
+      <pagination-controls
+        class="my-pagination pt-3"
+        previousLabel="Prev"
+        nextLabel="Next"
+        (pageChange)="onPageChange($event)"
+      ></pagination-controls>
+    </div>
+  </div>
 </div>

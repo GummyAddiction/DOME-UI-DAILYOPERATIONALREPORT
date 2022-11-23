@@ -5,7 +5,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { ReportService } from './report-service/report.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatNativeDateModule} from '@angular/material/core';
+import {MatNativeDateModule, MAT_DATE_LOCALE} from '@angular/material/core';
 import {HttpClientModule} from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import {MatFormFieldModule } from '@angular/material/form-field';
@@ -49,7 +49,9 @@ import {NgxPaginationModule} from 'ngx-pagination';
     NgxPaginationModule
     
   ],
-  providers: [ReportService],
+  providers: [
+    ReportService,
+    {provide: MAT_DATE_LOCALE, useValue: 'id'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

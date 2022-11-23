@@ -1,9 +1,14 @@
-<mat-dialog-content>
-    Delete Data ? {{data}}
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-button mat-dialog-close (click)="deleteReportTxn(data)">Okay</button>
-  </mat-dialog-actions>
-  <mat-dialog-actions>
-    <button mat-button mat-dialog-close >Cancel</button>
-  </mat-dialog-actions>
+<div >
+  <mat-dialog-content> Yakin ingin hapus ?</mat-dialog-content>
+  <div class="inline-flex place-items-center">
+    <mat-dialog-actions>
+      <button mat-button mat-dialog-close (click)="deleteReportTxn(data)">
+        Okay
+      </button>
+    </mat-dialog-actions>
+    <mat-dialog-actions>
+      <button mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+  </div>
+</div>
+

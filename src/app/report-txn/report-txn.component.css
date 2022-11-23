@@ -32,3 +32,8 @@ td.mat-cell:first-child {
     background: red;
     border-radius: 0.375rem;
   }
+
+
+  .mat-form-field{
+    width: 150px
+  }

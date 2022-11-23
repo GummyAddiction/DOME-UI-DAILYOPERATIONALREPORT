@@ -47,8 +47,8 @@ export class ReportTxnComponent implements AfterViewInit {
   title: string = 'ReportTxn';
   dataSource = new MatTableDataSource<ReportTxn>();
   reportTxns: ReportTxn[] = [];
-  functionalLocationId!:string;
-  allFunctionalLocationId!:string;
+  functionalLocationId!: string;
+  allFunctionalLocationId!: string;
   functionalLocation: FunctionalLocation[] = [];
   functionalLocationForm = new FormControl('');
   functionalLocationModel: FunctionalLocationModel[] = [];
@@ -95,8 +95,8 @@ export class ReportTxnComponent implements AfterViewInit {
 
   page: number = 1;
   count: number = 0;
-  tableSize: number = 3;
-  tableSizes: any = [3, 6, 9, 12];
+  tableSize: number = 10;
+  tableSizes: any = [10, 20, 50, 100];
 
   ngAfterViewInit(): void {
     // yg dijalanin pas awal mulai
@@ -133,15 +133,7 @@ export class ReportTxnComponent implements AfterViewInit {
         'Desember',
       ],
     });
-
-
-
-
-    const times = ["23:00:50", "23:03:20", "00:00:51"];
-    console.log('time test')
   }
-
-  
 
   displayReportTxn() {
     // function pas tombol submit dipencet
@@ -191,22 +183,20 @@ export class ReportTxnComponent implements AfterViewInit {
   }
 
   public getFunctionalLocation() {
-    let temp:number[]=[]
+    let temp: number[] = [];
     this.reportService.getFunctionalLocation().subscribe({
       next: (data) => {
         this.functionalLocation = data;
-        this.functionalLocation.forEach(
-          element => {
-            temp.push(element.functionallocationid)
-          }
-        )
-        this.allFunctionalLocationId = String(temp)
-        console.log('get all functional location')
-        console.log(this.functionalLocation)
-        console.log(this.allFunctionalLocationId)
+        this.functionalLocation.forEach((element) => {
+          temp.push(element.functionallocationid);
+        });
+        this.allFunctionalLocationId = String(temp);
+        console.log('get all functional location');
+        console.log(this.functionalLocation);
+        console.log(this.allFunctionalLocationId);
       },
       error: (e) => console.error(e),
-    })
+    });
   }
 
   // Percobaan Excel export
@@ -225,6 +215,8 @@ export class ReportTxnComponent implements AfterViewInit {
   openDialog(id: number) {
     const dialogRef = this.dialog.open(WarningDialogComponent, {
       restoreFocus: false,
+      width: '600px',
+      height: '600px',
       data: id,
     });
 
@@ -238,7 +230,7 @@ export class ReportTxnComponent implements AfterViewInit {
 
   dateStartInput(event: Event) {
     console.log(this.startDate);
-    console.log(this.functionalLocationId)
+    console.log(this.functionalLocationId);
     this.getAllData();
   }
   dateEndInput(event: Event) {
@@ -248,11 +240,11 @@ export class ReportTxnComponent implements AfterViewInit {
 
   selectFunctionalLocation() {
     console.log(this.functionalLocationId);
-    if(this.functionalLocationId == 'All'){
-      this.functionalLocationId = this.allFunctionalLocationId
+    if (this.functionalLocationId == 'All') {
+      this.functionalLocationId = this.allFunctionalLocationId;
     }
     console.log(this.functionalLocationId);
-    this.getAllData()
+    this.getAllData();
   }
 
   onPageChange(event: any) {
@@ -264,10 +256,10 @@ export class ReportTxnComponent implements AfterViewInit {
   }
 
   getAllData() {
-    console.log('coba untuk get all data')
-    console.log(this.startDate)
-    console.log(this.endDate)
-    console.log(this.functionalLocationId)
+    console.log('coba untuk get all data');
+    console.log(this.startDate);
+    console.log(this.endDate);
+    console.log(this.functionalLocationId);
     if (
       this.startDate != null &&
       this.endDate != null &&
@@ -275,5 +267,20 @@ export class ReportTxnComponent implements AfterViewInit {
     ) {
       this.displayReportTxn();
     }
+  }
+
+  formatTimeHHMM(time: string) {
+    if (time == null) {
+      time = '00:00';
+    }
+    if (time.length >= 6) {
+      return time.substring(0, 5);
+    } else {
+      return '00:00';
+    }
+  }
+
+  formatDateTimeHHMM(date: string) {
+    return dayjs(date).format('HH:mm');
   }
 }
